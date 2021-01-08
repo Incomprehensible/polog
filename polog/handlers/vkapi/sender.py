@@ -1,4 +1,6 @@
 import vk_api
+from vk_api.longpoll import VkLongPoll, VkEventType
+from vk_api.utils import get_random_id
 
 class VK_sender:
 	"""
@@ -15,8 +17,16 @@ class VK_sender:
     alt (function) - функция, которая будет выполнена в случае, если отправка сообщения не удалась или запрещена фильтрами. Должна принимать тот же набор аргументов, что и метод .__call__() текущего класса. Возвращаемые значения не используются.
 	"""
 	def __init__(self, token, peer_id, only_errors=None, text_assembler=None, filter=None, alt=None):
-		self.vk = vk_api.VkApi(token=token)
+		vk_session = vk_api.VkApi(token=token)
+		vk_session._auth_token()
+		longpoll = VkLongPoll(vk_session)
+		self.vk = vk_session.get_api()
 		self.id = peer_id
+		if not peer_id:
+			for event in longpoll.listen():
+				if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+					self.id = event.peer_id
+					break
 		self.only_errors = only_errors
 		self.text_assembler = text_assembler
 		self.filter = filter
@@ -41,12 +51,7 @@ class VK_sender:
 		"""
 		Отправляет сообщение.
 		"""
-		if not self.id:
-			msg = self.vk.method("messages.getConversations", {"offset":0, "count":20, "filter":"inread"})
-			if msg["count"] >= 1:
-				id = msg["items"][0]["last_message"]["from_id"]
-				self.id = id
-		self.vk.method("messages.send", {"peer_id":self.id, "message":message})
+		self.vk.messages.send(random_id=get_random_id(), peer_id=self.id, message=message)
 	
 	def get_text(self, args, **kwargs):
 		"""

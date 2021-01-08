@@ -3,17 +3,17 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ['ujson==3.0.0']
+requirements = ["ipython>=6", "polog>=0.0.9", "vk-api>=11.9.1"]
 
 setup(
-    name="polog",
+    name="vk_polog_handler",
     version="0.0.9",
-    author="Evgeniy Blinov",
-    author_email="zheni-b@yandex.ru",
-    description="Удобный асинхронный логгер",
+    author="Incomprehensible",
+    author_email="bomanyte@student.21-school.ru",
+    description="VK API-based handler for polog",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="https://github.com/pomponchik/polog",
+    url="https://github.com/Incomprehensible/vk_polog_handler",
     packages=find_packages(),
     install_requires=requirements,
     classifiers=[
