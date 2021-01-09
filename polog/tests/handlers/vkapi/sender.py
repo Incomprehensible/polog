@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
@@ -35,7 +36,7 @@ class VK_sender(BaseHandler):
 	
 	def __repr__(self):
 		return f'VK_sender(peer_id={self.id}, only_errors={self.only_errors}, text_assembler={self.text_assembler}, filter={self.filter}, alt={self.alt})'
-
+	
 	def do(self, content):
 		"""
 		Отправляет сообщение из полностью обработанной строки с логом.
