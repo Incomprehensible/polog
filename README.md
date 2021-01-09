@@ -21,11 +21,11 @@ $ pip install vk_polog_handler
 ```python
 
 if not peer_id:
-	for event in longpoll.listen():
-		if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-			print(event.peer_id) # выведите свой id в stdout
-			self.id = event.peer_id
-			break
+    for event in longpoll.listen():
+        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+	    print(event.peer_id) # выведите свой id в stdout
+	    self.id = event.peer_id
+	    break
 ```
 
 ## Настройки логгера
